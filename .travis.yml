@@ -20,5 +20,10 @@ script:
   - docker tag simple-node mkortmann/simple-node:latest
 
 after_success:
-  - docker login -u "$DOCKER_USERNAME" --password-stdin
+# To run the docker login command non-interactively, you can set the --password-stdin flag
+# provide a password through STDIN. It prevents the password from ending up in the shell's
+# history, or log-files.
+# so, the command below print the password to the password-stdin. It executed firstly the
+# right side of the pipe, and then print the password
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - docker push mkortmann/simple-node
